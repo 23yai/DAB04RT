@@ -1,42 +1,49 @@
-# -*- coding: utf-8 -*-
 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+from paginacion.landing import page_landing
+from paginacion.analisis import page_analisis
+from paginacion.comparativa import page_comparativa
 
 # Configuración general de la página
-st.set_page_config(
-    page_title="Visor Ofertas",
+st.set_page_config(  
+    page_title="Visor Ofertas", 
     page_icon="insertar icono",
     layout="wide",
     initial_sidebar_state="expanded"
 )
     
-# Título de la aplicación
-st.title("Visor de Ofertas de Empleo")
+def main():
 
-# Carga de datos visto cache en la web del programador
-@st.cache_data
-def load_data():
-    return pd.read_csv("df_final.csv")
+    # Título de la aplicación
+    st.title("JobExplorer: el buscador de Ofertas de Empleo Tecnologico")
 
-df = load_data()
+    # Carga de datos visto "cache" en la web del programador
+    @st.cache_data
+    def load_data():
+        return pd.read_csv("df_final.csv")
+
+    df = load_data()
 
 
-# Barra lateral fija con menú de navegación usando solo Streamlit
-with st.sidebar:
-    choice = st.radio(
-        "Navegación",
-        ("Inicio", "Presentación"),
-        index=0
-    )
+    # Barra lateral fija con menú de navegación usando solo Streamlit
+    with st.sidebar:
+        choice = st.radio(
+            "Navegación",
+            ("Bienvenidos", "Ofertas de empleo", "Comparador"),
+            index=0
+        )
 
-# Interpretamos la selección para el enrutado
-if choice.startswith("Inicio"):
-    import pages._01_Landing as page_module
-else:
-    import pages._02_Analisis as page_module
+    # Interpretamos la selección para el enrutado (codigo previo, cuando solo habia 2 paginas)
+    if choice.startswith("Bienvenidos"):
+        page_landing()
+    elif choice == "Ofertas de empleo":
+        page_analisis()
+    elif choice == "Comparador":
+        page_comparativa()
+
 
 # Ejecutamos la página correspondiente
-page_module.app()
+if __name__ == "__main__":
+    main()
