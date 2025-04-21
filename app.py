@@ -5,6 +5,7 @@ import plotly.express as px
 from paginacion.landing import page_landing
 from paginacion.analisis import page_analisis
 from paginacion.comparativa import page_comparativa
+from paginacion.SQL_Chart import page_SQL
 
 # Configuración general de la página
 st.set_page_config(  
@@ -31,7 +32,7 @@ def main():
     with st.sidebar:
         choice = st.radio(
             "Navegación",
-            ("Bienvenidos", "Ofertas de empleo", "Comparador"),
+            ("Bienvenidos", "Ofertas de empleo", "Comparador", "SQL Chart"),
             index=0
         )
 
@@ -42,7 +43,8 @@ def main():
         page_analisis()
     elif choice == "Comparador":
         page_comparativa()
-
+    elif choice == "SQL Chart":
+        page_SQL()
 
 # Ejecutamos la página correspondiente
 if __name__ == "__main__":

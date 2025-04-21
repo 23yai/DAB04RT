@@ -16,17 +16,17 @@ def page_comparativa():
     
     # Cargo y normalizo columnas
     df = pd.read_csv("df_final.csv")
-    df.columns = (
-        df.columns
-          .str.strip()
-          .str.lower()
-          .str.replace(" ", "_")
-          .str.replace("ó", "o")
-          .str.replace("í", "i")
-          .str.replace("á", "a")
-          .str.replace("é", "e")
-          .str.replace("ú", "u")
-    )
+    # df.columns = (
+    #     df.columns
+    #       .str.strip()
+    #       .str.lower()
+    #       .str.replace(" ", "_")
+    #       .str.replace("ó", "o")
+    #       .str.replace("í", "i")
+    #       .str.replace("á", "a")
+    #       .str.replace("é", "e")
+    #       .str.replace("ú", "u")
+    # )
 
     # 2Muestro en pantalla las columnas disponibles (opcional, para debug)
     # st.write("Columnas:", df.columns.tolist())
@@ -68,22 +68,24 @@ def page_comparativa():
         cols = st.columns(2)
         for col, (_, row) in zip(cols, comparativa.iterrows()):
             with col:
-                st.card(
-                    title=row["oferta"],
-                    text=(
-                        f"**empresa:** {row['empresa']}\n\n"
-                        f"**función:** {row['funcion']}\n\n"
-                        f"**salario:** {row['salario_min']}\n\n"
-                        f"**ubicación:** {row['ubicacion']}\n\n"
-                        f"**jornada:** {row['jornada']}\n\n"
-                        f"**contrato:** {row['contrato']}"
+                st.write(f"Oferta: {row["oferta"]}\n\nEmpresa: {row["empresa"]}\n\nFuncion: {row["funcion"]}\n\nSalario: {row["salario_min"]}\n\nUbicacion: {row["ubicacion"]}\n\nJornada: {row["jornada"]}\n\nContrato: {row["contrato"]}"
+                                     
+                        # f"**empresa:** {row['empresa']}\n\n"
+                        # f"**función:** {row['funcion']}\n\n"
+                        # f"**salario:** {row['salario_min']}\n\n"
+                        # f"**ubicación:** {row['ubicacion']}\n\n"
+                        # f"**jornada:** {row['jornada']}\n\n"
+                        # f"**contrato:** {row['contrato']}"
                     )
-                )
+                
     elif seleccion:
         st.info("Busca dos ofertas para ver la comparación.")
     else:
         st.write("🛈 Selecciona alguna oferta arriba para compararla.")
     
+
+
+
     # Ilustración al final: mujer buscando empleos de datos
     st.image(
         "assets/data_search_woman.png",
