@@ -34,7 +34,7 @@ def page_landing():
     -Disfrutar de una experiencia de usuario fluida y atractiva, con menús laterales, botoneras y un diseño que se adapta tanto a escritorio como a móvil.
     """)
 
-    st.title("Lo dejo para después, Insertar 1 grafica¿? Resto en segunda pagina")
+    # st.title("Lo dejo para después, Insertar 1 grafica¿? Resto en segunda pagina")
 
     #Muestra la ilustración al ancho de la columna
     # st.image(
@@ -43,9 +43,6 @@ def page_landing():
     #     use_container_width=False,
     #     width=300  
     # )
-
-
-
 
 
     #Muestra la ilustración al ancho de la columna
