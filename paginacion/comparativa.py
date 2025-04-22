@@ -96,7 +96,7 @@ def page_comparativa():
 
 
 
-#PRIMER INTENTO DE TODOS....
+#PRIMER INTENTO DE TODOS.........
 
 
 # import streamlit as st

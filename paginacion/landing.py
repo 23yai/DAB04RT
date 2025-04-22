@@ -52,5 +52,3 @@ def page_landing():
         use_container_width=False,
         width=500  
     )
-
-
