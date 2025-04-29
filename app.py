@@ -8,12 +8,12 @@ from paginacion.comparativa import page_comparativa
 from paginacion.SQL_Chart import page_SQL
 
 # Configuración general de la página
-st.set_page_config(  
-    page_title="Visor Ofertas", 
-    page_icon="insertar icono",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# st.set_page_config(  
+#     page_title="Visor Ofertas", 
+#     page_icon="insertar icono",
+#     layout="wide",
+#     initial_sidebar_state="expanded"
+# )
     
 def main():
 
@@ -49,3 +49,5 @@ def main():
 # Ejecutamos la página correspondiente
 if __name__ == "__main__":
     main()
+
+    

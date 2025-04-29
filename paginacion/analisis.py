@@ -162,7 +162,7 @@ def page_analisis():
 
 #####################################################
 
-    # Mapa con Folium
+    # Mapa con Folium (GEO JASON - DATAFRAME)
     st.subheader("Mapa de ubicaciones. latitud y longitud")
     m = folium.Map(location=[40.4, -3.7], zoom_start=5)
     # for _, row in df_f.iterrows():
@@ -172,135 +172,100 @@ def page_analisis():
     #     ).add_to(m)
     st_folium(m, width="100%", height=400)
 
+#Skills más solicitadas por funcion
+# query = '''SELECT 
+#           o.oferta,
+#           s.skills        AS skill,
+#           COUNT(*)        AS veces
+#         FROM ofertas o
+#         JOIN oferta_skill os  ON o.id_urls    = os.id_urls
+#         JOIN skills        s  ON os.id_skills = s.id_skills
+#         GROUP BY o.oferta, s.skills
+#         ORDER BY o.oferta, veces DESC;'''
 
+#     db_conectada = conectar_db()
+#     df_skills_por_oferta = ejecutar_query(query, db_conectada)
+#     db_conectada.close()
 
-################################################
-    
-    query = """
-    SELECT 
-        ot.habilidad_tecnica,
-        COUNT(*) AS cantidad_ofertas
-    FROM oferta_tecnologia ot
-    JOIN ofertas o ON ot.id_urls = o.id_urls
-    WHERE o.funcion = 'Data Analyst'
-    GROUP BY ot.habilidad_tecnica
-    ORDER BY cantidad_ofertas DESC
-    LIMIT 10;
-"""
+    # st.subheader("📋 Conteo de Skills por Oferta")
+    # st.dataframe(df_skills_por_oferta, use_container_width=True)
 
-    db_conectada = conectar_db()
-    df_tecnologias_funcion = ejecutar_query(query, db_conectada)
-    db_conectada.close()
-
-    fig4 = px.bar(
-        df_tecnologias_funcion,
-        x="cantidad_ofertas",
-        y="habilidad_tecnica",
-        orientation="h",
-        title="Top 10 tecnologías solicitadas para Data Analyst",
-        labels={
-            "cantidad_ofertas": "Veces solicitada",
-            "habilidad_tecnica": "Tecnología"
-        }
-    )
-    st.plotly_chart(fig4, use_container_width=True)
-    st.write(
-        "Este gráfico muestra las diez tecnologías más demandadas en las ofertas "
-        "etiquetadas como **Data Analyst**, ordenadas de mayor a menor frecuencia."
-    )
-
-# ── 2) Heatmap de Top 20 combinación Función–Tecnología ──
-    query = """
-        SELECT
-            o.funcion,
-            ot.habilidad_tecnica,
-            COUNT(*) AS cantidad_ofertas
-        FROM oferta_tecnologia ot
-        JOIN ofertas o ON ot.id_urls = o.id_urls
-        GROUP BY o.funcion, ot.habilidad_tecnica
-        ORDER BY cantidad_ofertas DESC
-        LIMIT 20;
-    """
-
-    db_conectada = conectar_db()
-    df_heat = ejecutar_query(query, db_conectada)
-    db_conectada.close()
-
-    # Pivot para la matriz
-    heatmap_df = (
-        df_heat
-        .pivot(index="funcion", columns="habilidad_tecnica", values="cantidad_ofertas")
-        .fillna(0)
-        .astype(int)
-    )
-
-    fig5 = px.imshow(
-        heatmap_df,
-        title="Top 20 Combinaciones Función–Tecnología",
-        labels={"x": "Tecnología", "y": "Función", "color": "Veces solicitada"},
-        text_auto=True,
-        aspect="auto",
-        color_continuous_scale="Blues"
-    )
-    st.plotly_chart(fig5, use_container_width=True)
-    st.write(
-        "El mapa de calor refleja las 20 combinaciones más frecuentes de rol y tecnología, "
-        "permitiéndote identificar rápidamente los pares función‑skill más populares."
-    )
-
-
-
-################################################
-
-
-
-
-    #Aternativas para ubicacion
-    # Normaliza columna
-        # df["ubicacion"] = df["ubicacion"].str.strip().fillna("Desconocido")
-
-        # # Cuenta ofertas por ubicación
-        # conteo = df["ubicacion"].value_counts().reset_index()
-        # conteo.columns = ["ubicacion", "cantidad"]
-
-        # # Gráfico horizontal
-        # fig = px.bar(
-        #     conteo, 
-        #     x="cantidad", 
-        #     y="ubicacion", 
-        #     orientation="h",
-        #     labels={"cantidad":"Ofertas", "ubicacion":"Ubicación"},
-        #     title="Ofertas por Ubicación"
-        # )
-        # st.plotly_chart(fig, use_container_width=True)
-
-    # Dashboard: gráfico de salarios
-    # st.subheader("Distribución de Salarios")
-    # salarios = df_f["salario_min"].dropna().apply(str).str.replace("k","",regex=False).astype(float)
-    # st.bar_chart(salarios)
-
-    # # Empresas con mas ofertas publicadas
-    # st.subheader("Empresas con mas ofertas publicadas")
-    # ofertas_por_empresa = df["empresa"].value_counts().head(10)
-    # st.bar_chart(ofertas_por_empresa)
-
-    #ejemplo como el histograma de tarifas y edades. Pero en experiencia requerida.
-    # Extraer valor numérico (ej: '3 años' → 3)
-    # no sale lo que quiero. grafico de barras solo con numeros.
-    # exp_raw = df["experiencia"].fillna("").astype(str)
-    # exp_num = exp_raw.str.extract(r"(\d+)")[0].astype(float)
-    # exp_counts = exp_num.value_counts().sort_index()
-    # st.subheader("Distribución de Experiencia (años)")
-    # st.bar_chart(exp_counts)
-
-
-    # #Pie Chart tipo de contratos (visto en clase)
-    # contratos = df["Contrato"].value_counts()
-    # # Con Plotly Express
-    # fig = px.pie(
-    #     names=contratos.index,
-    #     values=contratos.values,
-    #     title="Distribución de Tipos de Contrato"
+    # st.subheader("🔄 Matriz Oferta vs Skill")
+    # pivot_df = (
+    #     df_skills_por_oferta
+    #     .pivot(index="oferta", columns="skill", values="veces")
+    #     .fillna(0)
+    #     .astype(int)
     # )
-    # st.plotly_chart(fig, use_container_width=True)
+    # st.dataframe(pivot_df, use_container_width=True)
 
+    # # ── 3) Crear la figura agrupada ──
+    #     fig_skills = px.bar(
+    #         data_frame=df_skills_por_oferta,
+    #         x="skill",
+    #         y="veces",
+    #         color="oferta",
+    #         barmode="group",
+    #         title="📊 Conteo de Skills por Oferta",
+    #         labels={
+    #             "skill": "Skill",
+    #             "veces": "Veces solicitada",
+    #             "oferta": "Oferta"
+    #         }
+    #     )
+
+    #     # ── 4) Mostrar en Streamlit ──
+    #     st.plotly_chart(fig_skills, use_container_width=True)
+    #     st.write(
+    #         "Esta gráfica muestra cuántas veces aparece cada skill en las distintas ofertas, "
+    #         "con barras agrupadas por oferta para facilitar la comparación."
+    #     )
+
+##############################################################################################
+
+# De la 224 en adelante, del notebook de gráficas 
+
+    ## Mapa Coroplético: Ofertas de empleo por provincia y salario promedio.
+
+    # fig = px.choropleth(
+    #     df_x,
+    #     geojson = geojson_data,
+    #     locations='ubicacion',  
+    #     featureidkey = "properties.name", 
+    #     color='cantidad_ofertas',
+    #     color_continuous_scale='Tealgrn',
+    #     range_color = (0,200),
+    #     title='Ofertas de empleo por provincia y su salario promedio',
+    #     hover_name = "ubicacion",
+    #     hover_data = {"ubicacion":False, "cantidad_ofertas" : True, "salario_promedio": ":.0f"},
+    #     labels = {"cantidad_ofertas" : "Ofertas", "salario_promedio": "Salario €"}
+
+    # )
+    # fig.update_geos(fitbounds="locations", visible=True)
+    # fig.show()
+
+
+##############################################################################
+
+#Repetir el mismo mapa pero mostrando la media de salario, segmentado por puesto de trabajo
+
+# fig = px.choropleth(
+#     df_c,
+#     geojson = geojson_data,
+#     locations="ubicacion",
+#     featureidkey = "properties.name",
+#     color='funcion',
+#     color_continuous_scale='Viridis',
+#     hover_name = "ubicacion",
+#     hover_data = ["salario_promedio"],
+#     labels = {"ubicacion" : "Ubicacion", "salario_promedio": "Salario €"},
+#     title=f'Salario promedio de ocupacion segun la provincia'
+    
+# )
+# fig.update_geos(fitbounds="locations", visible=True)
+# fig.show()
+
+#####################################################################
+
+#falta insertar grafica
+# # Recreamos la columna ubicación y cambiamos los valores, por unos generales para poder agruparlos

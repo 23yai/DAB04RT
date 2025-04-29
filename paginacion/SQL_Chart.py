@@ -1,4 +1,4 @@
-# pages/04_SQL.py
+#pages/04_SQL.py
 
 import streamlit as st
 
@@ -19,4 +19,35 @@ def page_SQL():
                 Modalidad (teletrabajo/presencial) y Rango salarial, garantizando la integridad referencial y 
                 permitiendo consultas complejas como filtrar vacantes por compañía, rol, skills o tipo de jornada.
     """)
+
+
+
+# # paginacion/SQL_Chart.py
+# import streamlit as st
+
+# def page_SQL():
+#     st.title("Diagrama ER de SQL")
+#     flow_chart = """
+#     digraph ER {
+#       rankdir=LR;
+#       node [shape=record, fontname=Helvetica];
+
+#       Ofertas    [label="{Ofertas|id_urls\\lOferta\\lEmpresa\\lFuncion\\lUbicacion\\lContrato\\lSalario\\lExperiencia\\l}"];
+#       Ubicacion  [label="{Ubicacion|id_ubicacion\\lubicacion\\l}"];
+#       Empresa    [label="{Empresa|id_empresa\\lnombre\\l}"];
+#       Funcion    [label="{Funcion|id_funcion\\lfuncion\\l}"];
+#       Aptitudes  [label="{Aptitud|id_aptitud\\laptitud\\l}"];
+
+#       Ofertas:Ubicacion -> Ubicacion:id_ubicacion;
+#       Ofertas:Empresa   -> Empresa:id_empresa;
+#       Ofertas:Funcion   -> Funcion:id_funcion;
+#       Ofertas:Aptitudes -> Aptitudes:id_aptitud;
+#     }
+#     """
+#     st.graphviz_chart(flow_chart)
+#     st.write(
+#       "En este diagrama, **Ofertas** es la tabla central y se relaciona con "
+#       "**Ubicacion**, **Empresa**, **Funcion** y **Aptitudes** mediante claves "
+#       "foráneas para garantizar integridad referencial."
+#     )
 
