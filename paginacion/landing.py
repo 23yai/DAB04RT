@@ -52,3 +52,12 @@ def page_landing():
         use_container_width=False,
         width=500  
     )
+
+
+#Pie de página
+    st.markdown("---")
+    st.markdown(
+        "© 2025 JobExplorer · Todos los derechos reservados · "
+        "[Política de Privacidad](#) · "
+        "[Términos de Uso](#)"
+    )

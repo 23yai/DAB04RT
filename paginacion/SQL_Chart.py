@@ -20,7 +20,13 @@ def page_SQL():
                 permitiendo consultas complejas como filtrar vacantes por compañía, rol, skills o tipo de jornada.
     """)
 
-
+#Pie de página
+    st.markdown("---")
+    st.markdown(
+        "© 2025 JobExplorer · Todos los derechos reservados · "
+        "[Política de Privacidad](#) · "
+        "[Términos de Uso](#)"
+    )
 
 # # paginacion/SQL_Chart.py
 # import streamlit as st

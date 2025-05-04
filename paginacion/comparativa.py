@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 def page_comparativa():
     st.title("Comparativa de Ofertas de Empleo")
 
-    # Mostramos la ilustración de job cards
+        # Mostramos la ilustración de job cards
     st.image(
         "assets/data_job_cards_search.png",
         caption="Filtra y compara empleos de datos rápidamente",
@@ -240,3 +240,84 @@ def comparador_puestos_genericos(df):
 
     with st.expander("📊 Ver resumen medio por grupo"):
         st.dataframe(comparativa)
+
+
+######################################################### nueva prueba comparador
+
+    def comparador_skills_por_puesto_generico(df):
+        st.markdown("### 🔄 Comparativa de Skills por Puesto Genérico")
+
+        #puestos genéricos
+        opciones_puestos = [
+            "Frontend", "Backend", "Fullstack",
+            "Data Analyst", "DevOps", "QA", "Product Manager"
+        ]
+
+        #dos puestos a comparar
+        col1, col2 = st.columns(2)
+        with col1:
+            puesto_1 = st.selectbox("🔹 Primer puesto", opciones_puestos, key="skills_puesto1")
+        with col2:
+            puesto_2 = st.selectbox("🔸 Segundo puesto", opciones_puestos, index=1, key="skills_puesto2")
+
+        if puesto_1 == puesto_2:
+            st.warning("Selecciona dos puestos distintos para comparar sus skills.")
+            return
+
+        
+        df_sk = df.copy()
+        df_sk["skills"] = df_sk["skills"].fillna("").str.split(",")
+        df_sk = df_sk.explode("skills")
+        df_sk["skills"] = df_sk["skills"].str.strip().str.title()
+        df_sk = df_sk[df_sk["skills"] != ""]
+
+        #filtro por cada puesto y contamos las 10 skills top
+        def top_skills(df_base, puesto):
+            sub = df_base[df_base["oferta"].str.contains(puesto, case=False, na=False)]
+            conteo = sub["skills"].value_counts().head(10)
+            return conteo.reset_index().rename(columns={"index": "skill", "skills": "veces"})
+
+        top1 = top_skills(df_sk, puesto_1)
+        top2 = top_skills(df_sk, puesto_2)
+
+        #Mostramos dos gráficas de barras lado a lado
+        cols = st.columns(2)
+        with cols[0]:
+            st.subheader(f"🏷 Top Skills – {puesto_1}")
+            fig1 = px.bar(
+                top1,
+                x="veces",
+                y="skill",
+                orientation="h",
+                title=f"Top 10 skills para {puesto_1}",
+                labels={"skill": "Skill", "veces": "Veces solicitada"},
+                text="veces"
+            )
+            fig1.update_traces(texttemplate="%{text}", textposition="outside")
+            fig1.update_layout(yaxis={'categoryorder':'total ascending'}, height=500)
+            st.plotly_chart(fig1, use_container_width=True)
+
+        with cols[1]:
+            st.subheader(f"🏷 Top Skills – {puesto_2}")
+            fig2 = px.bar(
+                top2,
+                x="veces",
+                y="skill",
+                orientation="h",
+                title=f"Top 10 skills para {puesto_2}",
+                labels={"skill": "Skill", "veces": "Veces solicitada"},
+                text="veces"
+            )
+            fig2.update_traces(texttemplate="%{text}", textposition="outside")
+            fig2.update_layout(yaxis={'categoryorder':'total ascending'}, height=500)
+            st.plotly_chart(fig2, use_container_width=True)
+
+
+
+#Pie de página
+    st.markdown("---")
+    st.markdown(
+        "© 2025 JobExplorer · Todos los derechos reservados · "
+        "[Política de Privacidad](#) · "
+        "[Términos de Uso](#)"
+    )

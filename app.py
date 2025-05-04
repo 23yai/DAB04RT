@@ -6,24 +6,28 @@ from paginacion.landing import page_landing
 from paginacion.analisis import page_analisis
 from paginacion.comparativa import page_comparativa
 from paginacion.SQL_Chart import page_SQL
+from paginacion.about_us import page_aboutus
+from paginacion.page_clustering import page_clustering
+
+
 
 # Configuración general de la página
-# st.set_page_config(  
-#     page_title="Visor Ofertas", 
-#     page_icon="insertar icono",
-#     layout="wide",
-#     initial_sidebar_state="expanded"
-# )
+st.set_page_config(  
+    page_title="Visor Ofertas", 
+    page_icon="insertar icono",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
     
 def main():
 
     # Título de la aplicación
-    st.title("JobExplorer: el buscador de Ofertas de Empleo Tecnologico")
+    st.title("JobExplorer: el buscador de Ofertas de Empleo Tecnológico")
 
     # Carga de datos visto "cache" en la web del programador
     @st.cache_data
     def load_data():
-        return pd.read_csv("df_final.csv")
+        return pd.read_csv("df_final_limpio.csv")
 
     df = load_data()
 
@@ -32,7 +36,7 @@ def main():
     with st.sidebar:
         choice = st.radio(
             "Navegación",
-            ("Bienvenidos", "Ofertas de empleo", "Comparador", "SQL Chart"),
+            ("Bienvenidos", "Ofertas de empleo", "Comparador", "Clustering", "SQL Chart", "Quienes somos"),
             index=0
         )
 
@@ -43,8 +47,12 @@ def main():
         page_analisis()
     elif choice == "Comparador":
         page_comparativa()
+    elif choice == "Clustering":
+        page_clustering()
     elif choice == "SQL Chart":
         page_SQL()
+    elif choice == "Quienes somos":
+        page_aboutus()
 
 # Ejecutamos la página correspondiente
 if __name__ == "__main__":
