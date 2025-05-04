@@ -92,13 +92,13 @@ def page_aboutus():
 
 
     with col2:
-        st.image("assets/eddy_merckx.jpeg", width=180)
+        st.image("assets/yaiza.rubio.png", width=180)
         st.subheader("Yaiza Rubio Gil")
         st.markdown("""
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        Apasionada de la creación y el diseño. Me encanta dar forma a las ideas que se me presentan. Me considero una persona creativa y proactiva y me adapto bien a cualquier situación. Buenas dotes comunicativas.
         """)
 
-        with open("assets/1. SILVIALORRIO-CV2024-EN.pdf", "rb") as f:
+        with open("assets/CV Yaiza Diseño.pdf", "rb") as f:
                 pdf_bytes = f.read()
 
         st.markdown("[🔗 LinkedIn](https://www.linkedin.com/in/yaiza-rubio-gil-99b3a0250/)")
