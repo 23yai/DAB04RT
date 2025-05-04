@@ -27,11 +27,11 @@ def page_aboutus():
 
     with col1:
         # Foto y nombre
-        st.image("assets/claudio_chiappucci.jpeg", width=180)
+        st.image("assets/Daniel_Labella.jpeg", width=180)
         st.subheader("Daniel Labella Raya")
         # Mini reseña
         st.markdown("""
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        Ideador en el mundo del Marketing Online, nada se convierte en real sin una idea previa. Intento de emprendedor que no consiguió materializar su "mejor idea" pero que llenó una mochila de aptitudes como son una amplia visión estratégica, creatividad y proactividad.
         """)
 
         ####prueba para poder descargar
@@ -49,7 +49,7 @@ def page_aboutus():
             key="download_Daniel_cv"
         )
 
-    with col2:
+    with col4:
         st.image("assets/marco_pantani.jpeg", width=180)
         st.subheader("Anthony")
         st.markdown("""
@@ -72,7 +72,7 @@ def page_aboutus():
 
     with col3:
         st.image("assets/gino_bartali.jpeg", width=180)
-        st.subheader("Mila")
+        st.subheader("Milagros Castellano Barbero")
         st.markdown("""
         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         """)
@@ -91,9 +91,9 @@ def page_aboutus():
         )
 
 
-    with col4:
+    with col2:
         st.image("assets/eddy_merckx.jpeg", width=180)
-        st.subheader("Yaiza")
+        st.subheader("Yaiza Rubio Gil")
         st.markdown("""
         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         """)
@@ -101,7 +101,7 @@ def page_aboutus():
         with open("assets/1. SILVIALORRIO-CV2024-EN.pdf", "rb") as f:
                 pdf_bytes = f.read()
 
-        st.markdown("[🔗 LinkedIn](http://www.linkedin.com/in/yaiza-rubio-gil-99b3a025)")
+        st.markdown("[🔗 LinkedIn](https://www.linkedin.com/in/yaiza-rubio-gil-99b3a0250/)")
 
         st.download_button(
             label="📄 Descargar CV",
@@ -113,16 +113,16 @@ def page_aboutus():
 
 
     with col5:
-        st.image("assets/miguel_indurain.jpeg", width=180)
-        st.subheader("Silvia Lorrio")
+        st.image("assets/Silvia_Lorrio.jpeg", width=180)
+        st.subheader("Silvia Lorrio Olangua")
         st.markdown("""
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        Especialista en Supply Chain, con amplia experiencia en operaciones logísticas y negociación de contratos en LATAM, África, Europa y Oriente Medio. Mi objetivo es seguir impulsando la digitalización, perfeccionar procesos logísticos y liderar proyectos internacionales con un enfoque centrado en el análisis de datos.
         """)
 
         with open("assets/1. SILVIALORRIO-CV2024-EN.pdf", "rb") as f:
                 pdf_bytes = f.read()
 
-        st.markdown("[🔗 LinkedIn](falta)")
+        st.markdown("[🔗 LinkedIn](https://www.linkedin.com/in/silvialorrio/)")
 
         st.download_button(
             label="📄 Descargar CV",

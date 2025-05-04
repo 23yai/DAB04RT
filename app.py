@@ -7,6 +7,7 @@ from paginacion.analisis import page_analisis
 from paginacion.comparativa import page_comparativa
 from paginacion.SQL_Chart import page_SQL
 from paginacion.about_us import page_aboutus
+from paginacion.page_clasificacion import page_clasificacion
 from paginacion.page_clustering import page_clustering
 
 
@@ -36,7 +37,7 @@ def main():
     with st.sidebar:
         choice = st.radio(
             "Navegación",
-            ("Bienvenidos", "Ofertas de empleo", "Comparador", "Clustering", "SQL Chart", "Quienes somos"),
+            ("Bienvenidos", "Ofertas de empleo", "Comparador", "Clustering", "Clasificacion", "SQL Chart", "Quienes somos"),
             index=0
         )
 
@@ -49,6 +50,8 @@ def main():
         page_comparativa()
     elif choice == "Clustering":
         page_clustering()
+    elif choice == "Clasificacion":
+        page_clasificacion()
     elif choice == "SQL Chart":
         page_SQL()
     elif choice == "Quienes somos":
