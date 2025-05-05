@@ -10,22 +10,22 @@ modelo = joblib.load('modelo.pkl')
 escalador = joblib.load('escalador.pkl')
 
 def page_clasificacion():
-    st.title("📊 Exploración y Filtrado de Clusters")
+    st.title("📊 Clasificación de Ofertas según Clusters")
     st.markdown(
-        "En esta página puedes filtrar las ofertas según las variables usadas "
-        "para el clustering y ver cómo se distribuyen los diferentes grupos.\n\n" 
-        "Agrupa las ofertas en clusters basados en 7 variables clave:\n\n"
-    "• Estudios\n\n"
-    "• Experiencia\n\n"
-    "• Número de skills\n\n"
-    "• Tecnologías/apts\n\n"
-    "• Vacaciones\n\n"
-    "• Beneficios\n\n"
-    "• Salario medio\n\n"
-    "Se incorpora un formulario con inputs para las siete variables de una nueva oferta en el lateral izquierdo de la página. Al pulsar “Clasificar”, se escala el vector de entrada y se predice su cluster asociado usando los centroides del modelo de clustering. De esta forma, se demuestra cómo el sistema puede preetiquetar nuevas ofertas en tiempo real."
-
+        "En esta página puedes introducir los datos de una nueva oferta de empleo para predecir a qué grupo o *cluster* pertenece, "
+        "basándose en las características que definen el mercado laboral analizado.\n\n"
+        "El modelo de clustering agrupa las ofertas según siete variables clave:\n\n"
+        "• Estudios\n\n"
+        "• Experiencia\n\n"
+        "• Número de skills\n\n"
+        "• Tecnologías/apts\n\n"
+        "• Vacaciones\n\n"
+        "• Beneficios\n\n"
+        "• Salario medio\n\n"
+        "Utiliza el panel lateral para ajustar los valores de estas variables. A medida que los modifiques, "
+        "el sistema calculará automáticamente a qué grupo pertenece la oferta y mostrará las probabilidades de pertenencia a cada cluster.\n\n"
+        "Esto permite explorar cómo se etiquetarían automáticamente nuevas ofertas dentro de los segmentos detectados por el modelo."
     )
-
 
     estudios = st.sidebar.slider("Estudios", min_value=0, max_value=1, value=1)
     experiencia = st.sidebar.slider("Años de experiencia", min_value=0, max_value=10, value=3)
