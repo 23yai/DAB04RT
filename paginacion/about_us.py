@@ -71,13 +71,13 @@ def page_aboutus():
 
 
     with col3:
-        st.image("assets/gino_bartali.jpeg", width=180)
+        st.image("assets/mila.jpg", width=180)
         st.subheader("Milagros Castellano Barbero")
         st.markdown("""
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        Analista de Datos. Gran capacidad para adaptarme a todo tipo de entornos y aportar siempre lo mejor de mí. Me caracterizo por mi facilidad para el trabajo en equipo y mi entusiasmo por aprender y desarrollar mis habilidades. En busca de una oportunidad laboral en la que adquirir más experiencia
         """)
 
-        with open("assets/1. SILVIALORRIO-CV2024-EN.pdf", "rb") as f:
+        with open("assets/CV_MilagrosCastellanoBarbero.pdf", "rb") as f:
             pdf_bytes = f.read()
 
         st.markdown("[🔗 LinkedIn](https://www.linkedin.com/in/milagros-castellano-barbero?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app0)")

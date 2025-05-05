@@ -155,7 +155,3 @@ def page_clustering():
     )
 
 
-
-
-
-        #imagen3_clusters
