@@ -39,10 +39,10 @@ def page_clustering():
     st.markdown(
         """
         <p style="font-size:18px; font-weight:bold; margin: 0;">
-        Puntos claves
+       
         </p>
         <p style="font-size:18px; margin-top:8px; color:gray;">
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        
         </p>
         """,
         unsafe_allow_html=True
@@ -59,10 +59,10 @@ def page_clustering():
     st.markdown(
         """
         <p style="font-size:18px; font-weight:bold; margin: 0;">
-        Puntos claves
+        
         </p>
         <p style="font-size:18px; margin-top:8px; color:gray;">
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        
         </p>
         """,
         unsafe_allow_html=True
@@ -83,10 +83,10 @@ def page_clustering():
     st.markdown(
         """
         <p style="font-size:18px; font-weight:bold; margin: 0;">
-        Puntos claves
+        
         </p>
         <p style="font-size:18px; margin-top:8px; color:gray;">
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        
         </p>
         """,
         unsafe_allow_html=True
@@ -113,11 +113,11 @@ def page_clustering():
     st.markdown(
         """
         <p style="font-size:18px; font-weight:bold; margin: 0;">
-        Puntos claves
-        </p>
+        
+                        </p>
         <p style="font-size:18px; margin-top:8px; color:gray;">
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        </p>
+        
+
         """,
         unsafe_allow_html=True
     )
