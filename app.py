@@ -9,7 +9,7 @@ from paginacion.SQL_Chart import page_SQL
 from paginacion.about_us import page_aboutus
 from paginacion.page_clasificacion import page_clasificacion
 from paginacion.page_clustering import page_clustering
-
+from paginacion.powerbi import page_powerbi
 
 
 # Configuración general de la página
@@ -37,7 +37,7 @@ def main():
     with st.sidebar:
         choice = st.radio(
             "Navegación",
-            ("Bienvenidos", "Ofertas de empleo", "Comparador", "Clustering", "Clasificacion", "SQL Chart", "Quienes somos"),
+            ("Bienvenidos", "SQL Chart","Ofertas de empleo", "Comparador", "Powerbi", "Clustering", "Clasificacion", "Quienes somos"),
             index=0
         )
 
@@ -52,6 +52,8 @@ def main():
         page_clustering()
     elif choice == "Clasificacion":
         page_clasificacion()
+    elif choice == "Powerbi":
+        page_powerbi()
     elif choice == "SQL Chart":
         page_SQL()
     elif choice == "Quienes somos":

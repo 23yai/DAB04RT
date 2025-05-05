@@ -14,6 +14,16 @@
 #       comparativa.py
 #       sql_chart.py
 
+#codigo de powerbi 
+
+# Bienvenidos
+# SQL
+# Ofertas empleo
+# Comparador
+# Power BI
+# Clustering
+# Clasificador
+# About us
 
 
 # SPRINT 1 (Mejoras pendientes para el lunes 28 abril)

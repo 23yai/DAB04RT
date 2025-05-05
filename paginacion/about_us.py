@@ -50,13 +50,13 @@ def page_aboutus():
         )
 
     with col4:
-        st.image("assets/marco_pantani.jpeg", width=180)
+        st.image("assets/anthony.jpg", width=180)
         st.subheader("Anthony")
         st.markdown("""
-        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        Persona comprometida con el trabajo. Me oriento con rapidez e intento ser lo mas efectivo posible.Soy responsable, organizado y disfruto del trabajo en equipo. Me gusta experimentar nuevasexperiencias de las que poder aprender y asi ampliar mis recursos y conocimientos.
         """)
         
-        with open("assets/1. SILVIALORRIO-CV2024-EN.pdf", "rb") as f:
+        with open("assets/CV A.pdf", "rb") as f:
             pdf_bytes = f.read()
 
         st.markdown("[🔗 LinkedIn](http://www.linkedin.com/in/yaiza-rubio-gil-99b3a0250)")
