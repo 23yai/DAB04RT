@@ -65,7 +65,7 @@ def page_clasificacion():
 
     if pred == 0:
         st.markdown(
-            "**Cluster 0 (Ofertas más tradicionales/académicas)**\n\n" 
+            "**Grupo 0 (Ofertas más tradicionales/académicas)**\n\n" 
             "- Requieren estudios formales y más experiencia.\n\n" 
             "- Ofrecen más días de vacaciones.\n\n" 
             "- También piden ciertas tecnologías y aptitudes.\n\n" 
@@ -76,7 +76,7 @@ def page_clasificacion():
         )
     elif pred == 1:
         st.markdown(
-            "**Cluster 1 (Ofertas más orientadas a habilidades o tecnologías que experiencia y con mayor flexibilidad)**\n\n" 
+            "**Grupo 1 (Ofertas más orientadas a habilidades o tecnologías que experiencia y con mayor flexibilidad)**\n\n" 
             "- No requieren estudios formales específicos.\n\n" 
             "- No piden tanta experiencia, sino más skills técnicas y tecnologías.\n\n" 
             "- Ofrecen más beneficios.\n\n" 

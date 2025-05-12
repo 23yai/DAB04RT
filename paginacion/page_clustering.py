@@ -1,157 +1,173 @@
 # pages/06_Clustering.py
 # YAIZA 
 
+
+#df = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/df_final_clustering.csv")  # Ajusta la ruta según tu estructura
+
+
 import streamlit as st
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import plotly.express as px
+from sklearn.cluster import DBSCAN
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 
 def page_clustering():
     st.title("📊 Clustering de Ofertas de Empleo")
 
-    st.title("Introducción")
-    st.markdown(
-        "En esta sección se aplicó el algoritmo **DBSCAN** (Density-Based Spatial Clustering of Applications with Noise) para agrupar las vacantes y extraer patrones de comportamiento y relaciones entre características similares.\n\n" \
-        "El objetivo es identificar segmentos de ofertas con atributos comunes, lo que facilita la interpretación de los datos y la toma de decisiones, por ejemplo, mediante:\n\n"
-        "- Descubrimiento de tendencias o patrones ocultos.\n\n"
-        "- Segmentación eficaz del mercado laboral para orientar estrategias de reclutamiento.\n\n"
+    # ─── Introducción ─────────────────────────────────────────────────────────
+    st.header("Introducción")
+    st.markdown("""
+    En esta sección aplicamos **DBSCAN** (Density-Based Spatial Clustering of Applications with Noise)  
+    para agrupar las ofertas de empleo, descubrir patrones y facilitar la interpretación de los datos.
 
-        "Se eligió DBSCAN por sus ventajas:\n\n"
-        "- No requiere definir de antemano el número de clusters.\n\n"  
-        "- Detecta automáticamente outliers o puntos de ruido.\n\n"
+    **Ventajas de DBSCAN**  
+    - No requiere especificar el número de clústers por adelantado.  
+    - Detecta automáticamente outliers o puntos de ruido.
+    """)
 
-        "Para su correcta aplicación, primero se prepararon los datos:\n\n"
-        "- Se codificaron variables categóricas a formato numérico, requisito del algoritmo.\n\n"
-        "- Se ajustaron los parámetros `eps` y `min_samples`, apoyándose en gráficas de codo para determinar los valores óptimos.\n\n"
+    st.markdown("""
+    **Preparación de Datos y Selección de Parámetros**  
+    - Se codificaron variables categóricas a formato numérico.  
+    - Se normalizaron con `StandardScaler`.  
+    - `eps` y `min_samples` se optimizaron usando gráficas de codo.
+    """)
 
-        "**Preparación de Datos y Selección de Parámetros**\n\n"
-        "En primer lugar se realizó el preprocesamiento del conjunto de datos: todas las variables categóricas se codificaron a formato numérico para cumplir con los requisitos de entrada de DBSCAN.\n\n" \
-        "A continuación, se ajustaron los hiperparámetros clave (`eps` y `min_samples`) apoyándose en gráficas de codo, las cuales aportaron la información necesaria para elegir los valores que optimizan la calidad del clustering.\n\n"
+    # ─── Carga de datos ────────────────────────────────────────────────────────
+    #df = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/df_final_clustering.csv")  # Ajusta la ruta según tu estructura
+    df_final_clustering = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/df_final_clustering.csv")
+    st.dataframe(df_final_clustering.head())
 
+    # ─── Selección y escalado ─────────────────────────────────────────────────
+    cols_num = ["experiencia", "skills", "vacaciones", "salario_medio"]
+    X = (
+        df_final_clustering[cols_num]
+        .apply(pd.to_numeric, errors="coerce")
+        .fillna(0)
+        .values
+    )
+    scaler = StandardScaler().fit(X)
+    X_scaled = scaler.transform(X)
+
+    # ─── Cálculo Silhouette vs eps ────────────────────────────────────────────
+    resultados = []
+    for eps in np.arange(0.1, 2.6, 0.05):
+        db = DBSCAN(eps=eps, min_samples=14)
+        clusters = db.fit_predict(X_scaled)
+        n_clusters = len(set(clusters)) - (1 if -1 in clusters else 0)
+        n_noise = list(clusters).count(-1)
+        mask = clusters != -1
+        if n_clusters > 1 and np.sum(mask) > 1:
+            score = silhouette_score(X_scaled[mask], clusters[mask])
+        else:
+            score = np.nan
+        resultados.append([eps, n_clusters, n_noise, score])
+
+    resultados_df = pd.DataFrame(
+        resultados,
+        columns=["eps", "numero_clusters", "total_outliers", "silhouette"]
     )
 
-    st.title("Silhouette Score vs Eps")
-    st.image(
-            "assets/imagen1_silhouette.jpg",
-            use_container_width = False,
-            width=1200  
-        )
-    # Añadimos nuestro “caption” como HTML con estilo
-    st.markdown(
-        """
-        <p style="font-size:18px; font-weight:bold; margin: 0;">
-       
-        </p>
-        <p style="font-size:18px; margin-top:8px; color:gray;">
-        
-        </p>
-        """,
-        unsafe_allow_html=True
+    # ─── Gráfica Matplotlib ────────────────────────────────────────────────────
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(resultados_df["eps"], resultados_df["silhouette"], marker="o")
+    ax.set_xlabel("eps")
+    ax.set_ylabel("Silhouette Score")
+    ax.set_title("Silhouette Score vs eps")
+    st.pyplot(fig)
+
+    # ─── Plotly: Silhouette vs eps ────────────────────────────────────────────
+    fig1 = go.Figure()
+    fig1.add_trace(go.Scatter(
+        x=resultados_df["eps"],
+        y=resultados_df["silhouette"],
+        mode="lines+markers",
+        name="Silhouette"
+    ))
+    fig1.update_layout(
+        title="Silhouette Score vs eps",
+        xaxis_title="eps",
+        yaxis_title="Silhouette Score",
+        height=400
     )
+    st.plotly_chart(fig1, use_container_width=True)
 
-
-
-    st.title("Número de clusters vs eps")
-    st.image(
-            "assets/imagen2_numclusters.jpg",
-            use_container_width = False,
-            width=1200  
-        )
-    st.markdown(
-        """
-        <p style="font-size:18px; font-weight:bold; margin: 0;">
-        
-        </p>
-        <p style="font-size:18px; margin-top:8px; color:gray;">
-        
-        </p>
-        """,
-        unsafe_allow_html=True
+    # ─── Plotly: Número de clusters vs eps ───────────────────────────────────
+    fig2 = go.Figure()
+    fig2.add_trace(go.Scatter(
+        x=resultados_df["eps"],
+        y=resultados_df["numero_clusters"],
+        mode="lines+markers",
+        name="Clusters"
+    ))
+    fig2.update_layout(
+        title="Número de clusters vs eps",
+        xaxis_title="eps",
+        yaxis_title="Número de clusters",
+        height=400
     )
+    st.plotly_chart(fig2, use_container_width=True)
 
-    st.markdown(
-        "Finalmente se ha aplicado DBSCAN.\n\n"
-        "Nos muestra mediante un gráfica PCA de 2 dimensiones, como los gráficos se agrupan en 2 clusters o densidades:\n\n"
+    # ─── Validación Visual ────────────────────────────────────────────────────
+    st.header("Validación Visual")
+    st.image("assets/imagen2_numclusters.jpg",
+             caption="Número de clusters vs eps",
+             use_container_width=False,
+             width=1000)
+    st.image("assets/imagen3_clusters.jpg",
+             caption="Clusters identificados por DBSCAN",
+             use_container_width=False,
+             width=1000)
+
+    # ─── Selección del mejor eps ───────────────────────────────────────────────
+    mejor = resultados_df.loc[resultados_df["silhouette"].idxmax()]
+    st.markdown(f"""
+    **Mejor eps**: {mejor['eps']:.2f}  
+    **Silhouette**: {mejor['silhouette']:.3f}  
+    **Clusters**: {int(mejor['numero_clusters'])}  
+    **Outliers**: {int(mejor['total_outliers'])}
+    """)
+
+    # ─── PCA 2D y scatter───────────────────────────────────────────────────────
+    pca = PCA(n_components=2)
+    X_pca = pca.fit_transform(X_scaled)
+    clusters_opt = DBSCAN(eps=mejor['eps'], min_samples=14).fit_predict(X_scaled)
+    labels = np.where(clusters_opt == -1, "Outlier",
+                      np.where(clusters_opt == 0, "Cluster 1", "Cluster 2"))
+
+    fig3 = px.scatter(
+        x=X_pca[:, 0],
+        y=X_pca[:, 1],
+        color=labels,
+        title="Proyección PCA 2D con Clústers",
+        labels={"x":"Componente 1", "y":"Componente 2", "color":"Grupo"},
+        width=800,
+        height=600
     )
+    st.plotly_chart(fig3, use_container_width=True)
 
+    # ─── Interpretación ───────────────────────────────────────────────────────
+    st.header("Interpretación de Clústers")
+    st.markdown("""
+    **Distribución de Clústers**  
+    - **Cluster 1**: ~25% de las ofertas.  
+    - **Cluster 2**: ~75% de las ofertas.  
+    - **Outliers**: puntos atípicos.
 
-    st.title("Clusters DBSCAN")
-    st.image(
-            "assets/imagen3_clusters.jpg",
-            use_container_width = False,
-            width=1200  
-        )
-    st.markdown(
-        """
-        <p style="font-size:18px; font-weight:bold; margin: 0;">
-        
-        </p>
-        <p style="font-size:18px; margin-top:8px; color:gray;">
-        
-        </p>
-        """,
-        unsafe_allow_html=True
-    )
+    **Cluster 1**: formación y experiencia elevadas; más días de vacaciones.  
+    **Cluster 2**: énfasis en habilidades; contratos indefinidos y flexibilidad.
 
-    st.markdown(
-        "Al ver que claramente los datos están bien diferenciados, se confirma la validez del análisis"
-    )
+    Esta segmentación orienta la estrategia de selección por perfil.
+    """)
 
-    st.markdown(
-        "**Interpretación de los clusters**\n\n" 
-        "Tamaño y la proporción de cada cluster:\n\n"
-            "- Cluster 0: 25,3% de las ofertas (1.356 ofertas)\n\n"
-            "- Cluster 1: 74,7% de las ofertas (4.003 ofertas)\n\n"
-    )
-
-
-    st.title("Dataframe")
-    st.image(
-            "assets/imagen4_dataframe.jpg",
-            use_container_width = False,
-            width=1200  
-        )
-    st.markdown(
-        """
-        <p style="font-size:18px; font-weight:bold; margin: 0;">
-        
-                        </p>
-        <p style="font-size:18px; margin-top:8px; color:gray;">
-        
-
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "**Cluster 0 (Ofertas más tradicionales/académicas)**\n\n" 
-            "- Requieren estudios formales y más experiencia.\n\n" 
-            "- Ofrecen más días de vacaciones.\n\n" 
-            "- Tambien piden ciertas tecnologías y aptitudes.\n\n" 
-            "- Por lo general no ofrecen beneficios adicionales.\n\n" 
-            "- Menor porcentaje de contratos indefinidos.\n\n"  
-            "- Hay jornadas de todo tipo, pero la mayoría completa.\n\n" 
-            "- Todas las ofertas de este cluster pertenecen a tecnoempleo.\n\n"   
-    )
-
-
-    st.markdown(
-        "**Cluster 1 (Ofertas más orientadas a habilidades o tecnologías que experiencia y con mayor flexibilidad)**\n\n" 
-            "- No requieren estudios formales específicos.\n\n" 
-            "- No piden tanta experiencia si no más skills técnicas y tecnologías.\n\n" 
-            "- Ofrecen más beneficios.\n\n" 
-            "- Son todas a jornada completa.\n\n" 
-            "- Un 99% de contratos indefinidos.\n\n"  
-            "- Más trabajo en remoto.\n\n" 
-            "- Estas ofertas pertenecen a ambos portales de empleo (Manfred y Tecnoempleo).\n\n"   
-    )
-
-
-    st.markdown(
-        "**Interpretación del Mercado Laboral**\n\n" 
-        "La visualización PCA muestra dos grupos claramente separados:\n\n" 
-            "- Cluster 0: Representa ofertas más tradicionales/académicas que valoran la formación formal y la experiencia por encima de aptitudes o skills específicas.\n\n" 
-            "- Cluster 1: Representa ofertas más orientadas a habilidades que no necesitan estudios formales pero buscan competencias específicas, y ofrecen mejores condiciones como un contrato indefinido o jornada completa, en resumen mayor estabilidad, beneficios o mayor flexibilidad (remoto).\n\n" 
-        "Esta segmentación puede ser muy útil para orientar la búsqueda de empleo según el perfil del candidato."   
-    )
-
-
+# NOTA: No incluyas ningún st.set_page_config() aquí.
+# En app.py, haz:
+#   st.set_page_config(...)
+#   from paginacion.page_clustering import page_clustering
+#   ...
+#   if selected == "Clustering":
+#       page_clustering()
