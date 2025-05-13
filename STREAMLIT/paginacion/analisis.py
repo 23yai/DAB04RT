@@ -39,7 +39,7 @@ def ejecutar_query(query, db_conectada):
 
 
 def page_analisis():
-    st.markdown("<h2 style='text-align: center;'>🔍 Tu próximo empleo empieza aquí", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: left;'>🔍 Tu próximo empleo empieza aquí", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
     col1, col2 = st.columns([1,2])
     # Mostramos la ilustración de job cards
