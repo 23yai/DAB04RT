@@ -1,10 +1,6 @@
 # pages/06_Clustering.py
 # YAIZA 
 
-
-#df = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/df_final_clustering.csv")  # Ajusta la ruta según tu estructura
-
-
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -38,8 +34,7 @@ def page_clustering():
     """)
 
     # ─── Carga de datos ────────────────────────────────────────────────────────
-    #df = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/df_final_clustering.csv")  # Ajusta la ruta según tu estructura
-    df_final_clustering = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/df_final_clustering.csv")
+    df_final_clustering = pd.read_csv("C:/Users/Usuario/Documents/GitHub/DAB04RT/STREAMLIT/df_final_clustering.csv")
     st.dataframe(df_final_clustering.head())
 
     # ─── Selección y escalado ─────────────────────────────────────────────────
@@ -164,10 +159,4 @@ def page_clustering():
     Esta segmentación orienta la estrategia de selección por perfil.
     """)
 
-# NOTA: No incluyas ningún st.set_page_config() aquí.
-# En app.py, haz:
-#   st.set_page_config(...)
-#   from paginacion.page_clustering import page_clustering
-#   ...
-#   if selected == "Clustering":
-#       page_clustering()
+
